@@ -47,14 +47,19 @@ gpsData1 <- gpsData %>%
     group_by(GPX.File) %>%
     mutate(cum_sum = cumsum(point_distance))
 
-gpsData1 <- gpsData %>% 
-    group_by(GPX.File) %>% 
-    select(prevlon=lon, prevlat=lat) %>% 
-    slice(-n()) 
+#gpsData1 <- gpsData %>% 
+   # group_by(GPX.File) %>% 
+    #select(prevlon=lon, prevlat=lat) %>% 
+    #slice(-n()) 
 
-start_latlon <- gpsData %>% group_by(GPX.File) %>% slice(1) %>%
-    select(GPX.File,lon,lat,time.x)
+#start_latlon <- gpsData %>% group_by(GPX.File) %>% slice(1) %>%
+    #select(GPX.File,lon,lat,time.x)
     
+gpsData <- gpsData %>% 
+    group_by(GPX.File) %>% 
+    rowwise()%>%
+    mutate(prevlon = lon[1],
+           prevlat = lat[1])
 
 ------------------------------------------------
 library(plotKML)
